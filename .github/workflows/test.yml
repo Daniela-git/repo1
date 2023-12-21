@@ -5,7 +5,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout main repository
         uses: actions/checkout@v3
@@ -17,3 +16,9 @@ jobs:
           path: ./qa-tools
       - name: list
         run: ls
+      - name: run repo 1
+        working-directory: test
+        run: node repo1.js
+      - name: run repo 2
+        working-directory: qa-tools/src
+        run: node test.js
