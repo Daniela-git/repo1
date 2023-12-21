@@ -14,6 +14,11 @@ jobs:
           repository: daniela-git/repo2
           token: ${{ secrets.ACTIONS_TOKEN }}
           path: ./qa-tools
+      - name: Install packages repo 1
+        run: npm install
+      - name: Install packages repo 2
+        working-directory: qa-tools
+        run: npm install
       - name: list
         run: ls
       - name: run repo 1
