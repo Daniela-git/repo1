@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "outDir": "./.tsbuild/",
+    "sourceMap": false,
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "noImplicitAny": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
+    "types": [
+      "node",
+      "@types/node",
+      "@types/jasmine",
+      "@wdio/globals/types",
+      "expect-webdriverio/jasmine",
+      "@wdio/jasmine-framework"
+    ]
+  },
+  "include": [
+    "./config/**/*.ts",
+    "./specs/**/*.ts",
+    "./support/**/*.ts",
+    "./reporter/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

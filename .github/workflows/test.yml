@@ -1,28 +1,38 @@
-name: workflow_01
+name: emulators
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  Run_test:
+    runs-on: macos-latest
     steps:
       - name: Checkout main repository
         uses: actions/checkout@v3
-      - name: Checkout additional private repository
-        uses: actions/checkout@v3
-        with:
-          repository: daniela-git/repo2
-          path: ./qa-tools
-      - name: Install packages repo 1
-        run: npm install
-      - name: Install packages repo 2
-        working-directory: qa-tools
+      - name: Install appium
+        run: |
+          npm install -g appium
+          appium -v
+          appium driver install uiautomator2
+      - name: Install packages repo
         run: npm install
       - name: list
         run: ls
-      - name: run repo 1
-        working-directory: test
-        run: node repo1.js
-      - name: run repo 2
-        working-directory: qa-tools/src
-        run: node test.js
+      - name: Run appium server
+        run: |
+          nohup appium server \
+            --port=4723 \
+            --base-path=/wd/hub \
+            --relaxed-security \
+            --log-no-colors \
+            --log-timestamp \
+            2>&1 > "appium.log" &
+      - name: Run tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          script: npm run wdio:android
+          avd-name: emulator
+          api-level: 33
+          arch: x86_64
+          target: google_apis
