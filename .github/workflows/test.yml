@@ -1,8 +1,6 @@
 name: emulators
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
 
 jobs:
   Run_test:
@@ -37,5 +35,7 @@ jobs:
           arch: x86_64
           target: google_apis
       - name: upload video
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
         if: failure()
         run: npm run uploadVideo
