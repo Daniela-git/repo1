@@ -37,5 +37,5 @@ jobs:
           arch: x86_64
           target: google_apis
       - name: upload video
-        if: always()
+        if: failure()
         run: npm run uploadVideo

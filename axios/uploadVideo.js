@@ -36,7 +36,7 @@ async function uploadFileApi(token, content) {
 async function sendFile() {
   const token = process.env.TOKEN;
   const content = fs
-    .readFileSync('../testVideo/base-test.mp4')
+    .readFileSync('./testVideos/base-test.mp4')
     .toString('base64');
   await uploadFileApi(token, content);
 }
