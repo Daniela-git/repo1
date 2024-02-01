@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "wdio:android": "wdio run ./config/wdio.android.config.ts"
+    "wdio:android": "wdio run ./config/wdio.android.config.ts",
+    "uploadVideo": "node axios/uploadVideo"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,8 @@
     "@wdio/types": "^8.15.7",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
-    "webdriverio": "^8.15.9"
+    "webdriverio": "^8.15.9",
+    "axios": "^1.6.1"
   },
   "author": "",
   "license": "ISC",
