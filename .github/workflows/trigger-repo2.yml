@@ -8,7 +8,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Test
         run: |
-          workflow_id = $(curl -X POST https://api.github.com/repos/daniela-git/repo2/dispatches \
+          export workflow_id = $(curl -X POST https://api.github.com/repos/daniela-git/repo2/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACTIONS_TOKEN }} \
           --data '{"event_type": "trigger_repo2", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "ios": {"login":"ios","pass":"ios pass"},"android":{"login":"android","pass":"android pass"}}}')
