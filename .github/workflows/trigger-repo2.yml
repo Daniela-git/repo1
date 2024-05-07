@@ -1,0 +1,35 @@
+name: workflow_01
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Test
+        run: |
+          workflow_id = $(curl -X POST https://api.github.com/repos/daniela-git/repo2/actions/workflows/repository_dispatch.yml/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.ACTIONS_TOKEN }} \
+          --data '{"event_type": "Trigger Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "ios": {"login":"ios","pass":"ios pass"},"android":{"login":"android","pass":"android pass"}}}' \
+          | jq -r '.workflow_id')
+
+          # Wait for the triggered workflow to complete
+          while true; do
+            status=$(curl -X GET \
+              -H "Authorization: Bearer ${{ secrets.ACTIONS_TOKEN }}" \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              https://api.github.com/repos/daniela-git/repo2/actions/runs?workflow_id=$workflow_id \
+              | jq -r '.workflow_runs[0].conclusion')
+
+            if [ "$status" == "success" ] || [ "$status" == "failure" ]; then
+              break
+            fi
+            sleep 10
+          done
+          # Perform additional actions or return a response to repo 1
+          if [ "$status" == "success" ]; then
+            echo "Repo 2 workflow succeeded!"
+          else
+            echo "Repo 2 workflow failed!"
+          fi
