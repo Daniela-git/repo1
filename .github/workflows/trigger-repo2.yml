@@ -11,4 +11,14 @@ jobs:
           curl -X POST https://api.github.com/repos/daniela-git/repo2/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACTIONS_TOKEN }} \
-          --data '{"event_type": "trigger_repo2", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'", "ios": {"login":"ios","pass":"ios pass"},"android":{"login":"android","pass":"android pass"}}}'
+          --data '{"event_type": "trigger_repo2", "client_payload": { "login":"android","pass":"android pass"}}'\
+          > /dev/null
+
+          # Get the workflow_id of the triggered run
+          workflow_id=$(curl -X GET \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            https://api.github.com/repos/$REPO2_OWNER/$REPO2_NAME/actions/runs?event=repository_dispatch \
+            | jq -r '.workflow_runs[0].id')
+
+          echo $workflow_id
