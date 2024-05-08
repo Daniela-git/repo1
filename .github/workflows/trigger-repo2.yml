@@ -32,7 +32,7 @@ jobs:
               https://api.github.com/repos/daniela-git/repo2/actions/runs?workflow_id=$workflow_id \
               | jq -r '.workflow_runs[0].conclusion')
             echo $status
-            if [ "$status" == "success" ] || [ "$status" == "failure" ]; then
+            if [ "$status" = "success" ] || [ "$status" = "failure" ]; then
               continue=false
             fi
             sleep 10
