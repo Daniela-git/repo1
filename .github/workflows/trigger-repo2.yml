@@ -42,4 +42,4 @@ jobs:
             echo "Repo 2 workflow succeeded!"
           else
             echo "Repo 2 workflow failed!"
-          fi.,mnbvnoiytas   Zx
+          fi
