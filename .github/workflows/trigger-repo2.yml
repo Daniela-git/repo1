@@ -6,14 +6,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Test
+      - name: set env variables
+        id: envs
         env:
           USER: 'android'
+        run: |
+          echo "user=$USER" >> "$GITHUB_OUTPUT"
+      - name: Test
         run: |
           curl -X POST https://api.github.com/repos/daniela-git/repo2/dispatches \
           -H 'Accept: application/vnd.github.everest-preview+json' \
           -u ${{ secrets.ACTIONS_TOKEN }} \
-          --data '{"event_type": "trigger_repo2", "client_payload": { "login": ${USER},"pass":"pass"}}'
+          --data '{"event_type": "trigger_repo2", "client_payload": { "login": "${{steps.envs.outputs.user}}"","pass":"pass"}}'
 
 
           # Get the workflow_id of the triggered run
