@@ -33,7 +33,7 @@ jobs:
               | jq -r '.workflow_runs[0].conclusion')
             echo $status
             if [ "$status" == "success" ] || [ "$status" == "failure" ]; then
-              $continue=false
+              continue=false
             fi
             sleep 10
           done
