@@ -24,7 +24,8 @@ jobs:
           echo $workflow_id
 
           # Wait for the triggered workflow to complete
-          while true; do
+          continue=true
+          while continue; do
             status=$(curl -X GET \
               -H "Authorization: Bearer ${{ secrets.ACTIONS_TOKEN }}" \
               -H "Accept: application/vnd.github.everest-preview+json" \
@@ -32,7 +33,7 @@ jobs:
               | jq -r '.workflow_runs[0].conclusion')
             echo $status
             if [ "$status" == "success" ] || [ "$status" == "failure" ]; then
-              break
+              continue=false
             fi
             sleep 10
           done
